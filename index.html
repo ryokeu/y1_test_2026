@@ -271,7 +271,10 @@ summary{color:var(--accent)}
 <!-- 1 -->
 <section>
   <h2>1. 基本情報</h2>
-  <div class="grid g2">
+  <div class="grid">
+    <div class="field"><label class="req" for="studentName">名前</label><input type="text" id="studentName" data-key="studentName" data-req="名前" placeholder="例：札幌 太郎"></div>
+  </div>
+  <div class="grid g2" style="margin-top:14px">
     <div class="field"><label class="req" for="date">日付</label><input type="date" id="date" data-key="date" data-req="日付"></div>
     <div class="field"><label class="req" for="champion">使ったチャンピオン</label><input type="text" id="champion" data-key="champion" data-req="使ったチャンピオン" placeholder="例：アーリ"></div>
   </div>
@@ -555,6 +558,7 @@ summary{color:var(--accent)}
       '**試合振り返りレポート**',
       '',
       '【1. 基本情報】',
+      '名前：'+v(o.studentName),
       '日付：'+fmtDate(o.date),
       '試合の種類：'+v(o.matchType),
       '今のランク：'+rankText(o),
@@ -672,7 +676,7 @@ summary{color:var(--accent)}
     var kda = v(o.k)+'/'+v(o.d)+'/'+v(o.a)+'（'+s.kda+'）';
     document.getElementById('card').innerHTML =
       '<div class="chead"><div><p class="ctitle">試合振り返りレポート</p></div>'+
-      '<div class="cmeta">'+esc(fmtDate(o.date))+'　'+esc(v(o.matchType))+res+'</div></div>'+
+      '<div class="cmeta">'+esc(v(o.studentName))+'<br>'+esc(fmtDate(o.date))+'　'+esc(v(o.matchType))+res+'</div></div>'+
       '<div class="cgrid">'+
         '<div class="cbox"><h3>1. 基本情報</h3><table>'+
           row('今のランク',rankText(o))+row('ロール',o.role)+row('チャンピオン',o.champion)+row('試合時間',o.minutes?o.minutes+'分':'')+
@@ -709,7 +713,7 @@ summary{color:var(--accent)}
     var card=document.getElementById('card');
     html2canvas(card,{scale:2, backgroundColor:'#232f40', logging:false, scrollX:0, scrollY:0, windowWidth:card.scrollWidth}).then(function(canvas){
       var a=document.createElement('a');
-      a.download='振り返りレポート_'+(collect().date||'report')+'.png';
+      a.download='振り返りレポート_'+(collect().studentName?collect().studentName+'_':'')+(collect().date||'report')+'.png';
       a.href=canvas.toDataURL('image/png');
       document.body.appendChild(a); a.click(); document.body.removeChild(a);
       toast('画像を保存しました！Discordに貼ってね');
